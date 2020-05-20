@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:<latest>"
+    }
+}
+
+plugins {
+    id 'idea'
+    id 'java'
+    id "io.freefair.lombok" version "5.1.0"
+    id "io.qameta.allure" version "2.8.1"
+}
+
+group 'ru.guzev'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.testng', name: 'testng', version: '7.1.0'
+    compile group: 'com.codeborne', name: 'selenide', version: '5.11.1'
+    compile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
+    compile group: 'org.aeonbits.owner', name: 'owner', version: '1.0.11'
+    testCompile 'org.assertj:assertj-core:3.14.0'
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
+}
+
+
+allure {
+    autoconfigure = false
+    aspectjweaver = true
+    version = '2.13.0'
+}
+
+test {
+    useTestNG()
+    systemProperty("allure.model.indentOutput", "true")
+}
